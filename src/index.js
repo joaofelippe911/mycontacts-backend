@@ -1,16 +1,16 @@
-const express = require('express');
 require('express-async-errors');
+
+const express = require('express');
+const cors = require('./app/middlewares/cors');
+const errorHandler = require('./app/middlewares/errorHandler');
 
 const routes = require('./routes');
 
 const app = express();
 
 app.use(express.json());
+app.use(cors);
 app.use(routes);
-app.use((error, req, res, next) => {
-  console.log('### Error handler');
-  console.log(error);
-  res.sendStatus(500);
-});
+app.use(errorHandler);
 
-app.listen(3000, () => console.log('Server running at http://localhost:3000'));
+app.listen(3001, () => console.log('Server running at http://localhost:3001'));
