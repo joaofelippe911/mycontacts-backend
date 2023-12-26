@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  api:
+    build: .
+    container_name: my-contacts-backend_c
+    ports:
+      - '3001:3001'
+    depends_on:
+      - db
+    networks:
+      - backbone
+    environment:
+      DATABASE_URL: db
+      DATABASE_PORT: 5432
+    links:
+      - 'db:database'
+  db:
+    image: postgres
+    container_name: pg
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    networks:
+      - backbone
+networks:
+  backbone:
+    driver: bridge
